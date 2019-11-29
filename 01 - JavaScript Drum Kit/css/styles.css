@@ -1,0 +1,29 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+#button-container {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+}
+
+#button-container div {
+	position: relative;
+	left: -50%;
+	top: -50%;
+}
+
+button { 
+	display: inline-block; 
+	border: solid 2px #000;
+	background: #fff;
+	text-align: center;
+	cursor: pointer;
+	outline: 0;
+	width: 50px;
+	height: 50px;
+	margin: 0 10px;
+	vertical-align: bottom;
+}
