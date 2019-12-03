@@ -64,21 +64,24 @@
 
 			function playSoundOnKey(event) {
 				let soundCode = event.keyCode;
-				playSound(soundCode);
+				let element = document.querySelector('button[data-keycode="' + soundCode + '"]');
+				playSound(soundCode, element);
 			}
 
 			let btn = document.querySelectorAll('.sound');
 
 			function playSoundOnClick(event) {
 				let soundCode = parseInt(this.getAttribute('data-keyCode'));
-				playSound(soundCode);
+				playSound(soundCode, this);
 			}
 
-			function playSound(soundCode) {
-
+			function playSound(soundCode, element) {
+				element.classList.add('playing');
+				setTimeout(function() {
+					element.classList.remove('playing');
+				},200)
 				switch(soundCode) {
 					case 97:
-						console.log('asd');
 						kickAudio.play();
 						break;
 					case 115:
