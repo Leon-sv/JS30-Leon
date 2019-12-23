@@ -9,115 +9,62 @@
 	<body>
 		<h1>Drum kit</h1>
 		<div id="button-container">
-			<div>
-				<button class="sound" data-keycode="97">Kick</button>
-				<button class="sound" data-keycode="115">Boom</button>
-				<button class="sound" data-keycode="100">Snare</button>
-				<button class="sound" data-keycode="102">Clap</button>
-				<button class="sound" data-keycode="103">Hihat</button>
-				<button class="sound" data-keycode="104">Open Hihat</button>
-				<button class="sound" data-keycode="106">Ride</button>
-				<button class="sound" data-keycode="107">Tom</button>
-				<button class="sound" data-keycode="108">Tink</button>
-			</div>
+			<button class="sound" data-keycode="65">Kick</button>
+			<button class="sound" data-keycode="83">Boom</button>
+			<button class="sound" data-keycode="68">Snare</button>
+			<button class="sound" data-keycode="70">Clap</button>
+			<button class="sound" data-keycode="71">Hihat</button>
+			<button class="sound" data-keycode="72">Open Hihat</button>
+			<button class="sound" data-keycode="74">Ride</button>
+			<button class="sound" data-keycode="75">Tom</button>
+			<button class="sound" data-keycode="76">Tink</button>
 		</div>
-		<div id="audio-wrapper">
-			<audio id="kick">
-				<source src="sounds/kick.wav" type="audio/wav">
-			</audio>
-			<audio id="boom">
-				<source src="sounds/boom.wav" type="audio/wav">
-			</audio>
-			<audio id="snare">
-				<source src="sounds/snare.wav" type="audio/wav">
-			</audio>
-			<audio id="clap">
-				<source src="sounds/clap.wav" type="audio/wav">
-			</audio>
-			<audio id="hihat">
-				<source src="sounds/hihat.wav" type="audio/wav">
-			</audio>
-			<audio id="openhat">
-				<source src="sounds/openhat.wav" type="audio/wav">
-			</audio>
-			<audio id="ride">
-				<source src="sounds/ride.wav" type="audio/wav">
-			</audio>
-			<audio id="tom">
-				<source src="sounds/tom.wav" type="audio/wav">
-			</audio>
-			<audio id="tink">
-				<source src="sounds/tink.wav" type="audio/wav">
-			</audio>
-		</div>
+
+		<audio id="kick" data-keycode="65" src="sounds/kick.wav"></audio>
+		<audio id="boom" data-keycode="83" src="sounds/boom.wav"></audio>
+		<audio id="snare" data-keycode="68" src="sounds/snare.wav"></audio>
+		<audio id="clap" data-keycode="70" src="sounds/clap.wav"></audio>
+		<audio id="hihat" data-keycode="71" src="sounds/hihat.wav"></audio>
+		<audio id="openhat" data-keycode="72" src="sounds/openhat.wav"></audio>
+		<audio id="ride" data-keycode="74" src="sounds/ride.wav"></audio>
+		<audio id="tom" data-keycode="75" src="sounds/tom.wav"></audio>
+		<audio id="tink" data-keycode="76" src="sounds/tink.wav"></audio>
 	</body>
 	<script>
-			let kickAudio = document.getElementById('kick');
-			let boomAudio = document.getElementById('boom');
-			let snareAudio = document.getElementById('snare');
-			let clapAudio = document.getElementById('clap');
-			let hihatAudio = document.getElementById('hihat');
-			let openhatAudio = document.getElementById('openhat');
-			let rideAudio = document.getElementById('ride');
-			let tomAudio = document.getElementById('tom');
-			let tinkAudio = document.getElementById('tink');
 
-			function playSoundOnKey(event) {
-				let soundCode = event.keyCode;
-				let element = document.querySelector('button[data-keycode="' + soundCode + '"]');
-				playSound(soundCode, element);
+			let btns = document.querySelectorAll('.sound');
+
+			for (var i=0; i<btns.length;i++){
+				btns[i].addEventListener('click', function(e) {
+					playSoundOnClick(event, this);
+				});
+			};
+
+			btns.forEach(btn => btn.addEventListener('transitionend', removeTransition));
+
+			function removeTransition(e) {
+				if(e.propertyName !== 'transform') return; // skip it if it is not a transform
+				this.classList.remove('playing');
 			}
 
-			let btn = document.querySelectorAll('.sound');
-
-			function playSoundOnClick(event) {
-				let soundCode = parseInt(this.getAttribute('data-keyCode'));
-				playSound(soundCode, this);
-			}
-
-			function playSound(soundCode, element) {
+			function playSound(audio, element) {
 				element.classList.add('playing');
-				setTimeout(function() {
-					element.classList.remove('playing');
-				},200)
-				switch(soundCode) {
-					case 97:
-						kickAudio.play();
-						break;
-					case 115:
-						boomAudio.play();
-						break;
-					case 100:
-						snareAudio.play();
-						break;
-					case 102:
-						clapAudio.play();
-						break;
-					case 103:
-						hihatAudio.play();
-						break;
-					case 104:
-						openhatAudio.play();
-						break;
-					case 106:
-						rideAudio.play();
-						break;
-					case 107:
-						tomAudio.play();
-						break;
-					case 108:
-						tinkAudio.play();
-						break;
-					default:
-						break;
-				}
+				audio.currentTime = 0;	//rewinds audio to the start
+				audio.play();
 			}
 
-			document.addEventListener("keypress", playSoundOnKey);
-
-			for (var i=0; i< btn.length; i++) {
-				btn[i].addEventListener('click', playSoundOnClick);
+			function playSoundOnClick(event, element) {
+				let soundCode = parseInt(element.getAttribute('data-keyCode'));
+				let audio = document.querySelector(`audio[data-keycode="${soundCode}"]`);
+				playSound(audio, element);
 			}
+
+			window.addEventListener('keydown', function(e) {
+				const audio = document.querySelector(`audio[data-keycode="${e.keyCode}"]`);
+				let element = document.querySelector(`button[data-keycode="${e.keyCode}"]`);
+				if (!audio) return;
+				playSound(audio, element);
+			});
 			
 		</script>
 </html>
