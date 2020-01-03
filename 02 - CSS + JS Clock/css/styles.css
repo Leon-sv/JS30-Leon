@@ -1,0 +1,43 @@
+#clock {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	max-width: 300px;
+	max-height: 300px;
+	width: 66%;
+	height: 66%;
+}
+
+#clock-body {
+	border: solid 5px gray;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	position: relative;
+}
+
+.tongue {
+	width: 45%;
+	height: 5px;
+	background: #000;
+	position: absolute;
+	right: 50%;
+	top: 50%;
+	transform-origin: 100%;
+	transform: rotate(90deg);
+	transition: all 0.5s cubic-bezier(0.1, 2.7, 0.58, 1);
+}
+
+.hours {
+	width: 42%;
+}
+
+.minutes {
+	width: 27%;
+}
+
+.seconds {
+	height: 2px;
+	width: 46%;
+}
