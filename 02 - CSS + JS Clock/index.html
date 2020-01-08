@@ -2,9 +2,10 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>JS 01 - drum kit</title>
+		<title>JS 02 - CSS + JS Clock</title>
 		<link rel="stylesheet" href="css/styles.css">
 	</head>
+
 
 	<body>
 
@@ -16,4 +17,34 @@
 			</div>
 		</div>
 	</body>
+
+	<script>
+		const secondsTimer = document.querySelector('.seconds');
+		const minutesTimer = document.querySelector('.minutes');
+		const hoursTimer = document.querySelector('.hours');
+
+		let timeCounter = 0;
+
+		transformElement = (elem, timeframe) => {
+			elem.style.webkitTransform = `rotate(${timeframe}deg)`;
+			elem.style.mozTransform    = `rotate(${timeframe}deg)`;
+			elem.style.msTransform     = `rotate(${timeframe}deg)`;
+			elem.style.oTransform      = `rotate(${timeframe}deg)`;
+			elem.style.transform = `rotate(${timeframe}deg)`;
+		}
+
+		setInterval(() => {
+			timeCounter++;
+			let secondsPosition = 90 + timeCounter * 6;
+			let minutesPosition = 90 + (timeCounter / 60) * 6;
+			let hoursPosition = 90 + (timeCounter / 3600) * 6;
+			transformElement(secondsTimer, secondsPosition);
+			if (timeCounter % 60 == 0) {
+				transformElement(minutesTimer, minutesPosition);
+			}
+			if (timeCounter % 3600 == 0) {
+				transformElement(hoursTimer, hoursPosition);
+			}
+		}, 1000);
+	</script>
 </html>
