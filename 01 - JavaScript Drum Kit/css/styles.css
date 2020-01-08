@@ -7,12 +7,7 @@
 	position: absolute;
 	left: 50%;
 	top: 50%;
-}
-
-#button-container div {
-	position: relative;
-	left: -50%;
-	top: -50%;
+	transform: translateX(-50%);
 }
 
 button { 
@@ -26,4 +21,10 @@ button {
 	height: 50px;
 	margin: 0 10px;
 	vertical-align: bottom;
+	transition: all 0.07s linear;
+}
+
+.playing {
+	transform: scale(1.1);
+	border: solid 2px yellow;
 }
