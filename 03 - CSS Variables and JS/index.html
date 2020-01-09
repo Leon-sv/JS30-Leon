@@ -5,7 +5,7 @@
 		<title>JS 03 - CSS Variables and JS</title>
 	</head>
 	<body>
-		<h2>Update CSS variables with <span class="hl">JS</span></h2>
+		<h2 style="--base: #bada55;">Update CSS variables with <span class="hl">JS</span></h2>
 	</body>
 
 	<div class="controls">
@@ -37,23 +37,18 @@
 	</style>
 
 	<script>
-		const colorControl = document.querySelector('input[name="base"]');
-		const blurControl = document.querySelector('input[name="blur"]');
-		const spacingControl = document.querySelector('input[name="spacing"]');
 
-		const root = document.documentElement;
+		const inputs = document.querySelectorAll('.controls input');
 
-		spacingControl.addEventListener('change', function() {
-			root.style.setProperty('--spacing',`${this.value}px`)
-		});
+		function handleUpdate() {
+			const suffix = this.dataset.sizing || '';
+			console.log(this.name);
+			console.log(this.value + suffix);
+			document.documentElement.style.setProperty(`--${this.name}`, `${this.value + suffix}`);
+		}
 
-		blurControl.addEventListener('change', function() {
-			root.style.setProperty('--blur',`${this.value}px`)
-		});
+		inputs.forEach(input => input.addEventListener('change', handleUpdate));
+		inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
 
-		colorControl.addEventListener('change', function() {
-			console.log(this.value);
-			root.style.setProperty('--base',`${this.value}`)
-		});
 	</script>
 </html>
