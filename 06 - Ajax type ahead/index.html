@@ -92,8 +92,48 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    const xhr = new XMLHttpRequest();
 
+    // xhr.onreadystatechange = function() {
+    //     if ((this.readyState === 4) && (this.status == 200)) {
+    //         var response = JSON.parse(this.responseText);
+    //         console.log(response);
+    //     }
+    // }
+    // xhr.open('GET', endpoint);
+    // xhr.send();
+
+    const inputForm = document.querySelector('.search');
+
+    inputForm.addEventListener('input', function(e) {
+        const xhr = new XMLHttpRequest();
+        const searchValue = this.value;
+
+        xhr.onreadystatechange = function() {
+            if ((this.readyState === 4) && (this.status == 200)) {
+                const response = JSON.parse(this.responseText);
+                let mappedResponse  = response.filter((elem) => {
+                    return elem.city.toUpperCase().includes(searchValue.toUpperCase());
+                });
+                console.log(mappedResponse);
+
+                let rezult = '';
+
+                mappedResponse.forEach(function(elem) { 
+                  rezult += `<li>${elem.city}, ${elem.state}<span class="population">${elem.population}</span></li>`;
+                });
+                
+                const list = document.querySelector('.suggestions');
+                list.innerHTML = rezult;
+            }
+        }
+        xhr.open('GET', endpoint);
+        xhr.send();
+
+       
+        
+    })
 </script>
 </body>
 </html>
