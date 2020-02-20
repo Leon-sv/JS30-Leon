@@ -97,25 +97,30 @@
 
 <script>
 	const checkboxes = document.querySelectorAll('input[type="checkbox"');
+
 	let lastChecked;
 
-	checkboxes.forEach((checkbox,idx) => {
-		checkbox.addEventListener('click', e => {
-			if ((lastChecked > -1) && e.shiftKey && checkboxes[lastChecked].checked) {
-				if (idx > lastChecked) {
-					for (let counter=lastChecked;counter<=idx;counter++) {
-						checkboxes[counter].checked = true;
-					}
-				} else {
-					for (let counter=lastChecked;counter>=idx;counter--) {
-						checkboxes[counter].checked = true;
-					}
-				}
-			}
+	function handleCheck(e) {
 
-			lastChecked = idx;
-		});
-	});
+		let inBetween = false;
+		if (e.shiftKey && this.checked) {
+
+			checkboxes.forEach(checkbox => {
+				console.log(checkbox);
+				if(checkbox === this || checkbox === lastChecked) {
+					inBetween = !inBetween;
+				}
+
+				if (inBetween) {
+					checkbox.checked = true;
+				}
+			});
+
+		}
+		lastChecked = this;
+	}
+
+	checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
 </script>
 </body>
 </html>
